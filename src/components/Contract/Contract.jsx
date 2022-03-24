@@ -87,6 +87,7 @@ export default function Contract() {
 
               let isView = false;
               /*eslint no-unsafe-optional-chaining: "error"*/
+              // eslint-disable-next-line no-unsafe-optional-chaining
               for (let method of contract?.abi) {
                 if (method.name !== name) continue;
                 console.log(method);

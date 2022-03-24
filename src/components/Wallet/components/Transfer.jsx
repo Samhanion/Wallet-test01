@@ -3,7 +3,7 @@ import { Button, Input, notification } from "antd";
 import Text from "antd/lib/typography/Text";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
-import AddressInput from "../../AddressInput";
+// import AddressInput from "../../AddressInput";
 import AssetSelector from "./AssetSelector";
 
 const styles = {
@@ -45,12 +45,15 @@ function Transfer() {
   const { Moralis } = useMoralis();
   const [receiver, setReceiver] = useState();
   const [asset, setAsset] = useState();
+  //   setAsset(null);
   const [tx, setTx] = useState();
   const [amount, setAmount] = useState();
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     asset && amount && receiver ? setTx({ amount, receiver, asset }) : setTx();
+    console.log("tx", tx);
+    console.log("amount reciever asset", { amount, receiver, asset });
   }, [asset, amount, receiver]);
 
   const openNotification = ({ message, description }) => {
@@ -66,9 +69,7 @@ function Transfer() {
 
   async function transfer() {
     const { amount, receiver, asset } = tx;
-
     let options = {};
-
     switch (asset.token_address) {
       case "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee":
         options = {
@@ -87,10 +88,8 @@ function Transfer() {
           awaitReceipt: false,
         };
     }
-
     setIsPending(true);
     const txStatus = await Moralis.transfer(options);
-
     txStatus
       .on("transactionHash", (hash) => {
         openNotification({
@@ -127,7 +126,16 @@ function Transfer() {
           <div style={styles.textWrapper}>
             <Text strong>Address:</Text>
           </div>
-          <AddressInput autoFocus onChange={setReceiver} />
+          {/* <AddressInput autoFocus onChange={setReceiver} /> */}
+          <Input
+            size="large"
+            prefix={<CreditCardOutlined />}
+            onChange={(e) => {
+              e.target.value.length == 42
+                ? setReceiver(`${e.target.value}`)
+                : setReceiver(null);
+            }}
+          />
         </div>
         <div style={styles.select}>
           <div style={styles.textWrapper}>
@@ -145,15 +153,15 @@ function Transfer() {
           <div style={styles.textWrapper}>
             <Text strong>Asset:</Text>
           </div>
-          <AssetSelector setAsset={setAsset} style={{ width: "100%" }} />
+          <AssetSelector setAsset={setAsset} />
         </div>
         <Button
           type="primary"
           size="large"
           loading={isPending}
           style={{ width: "100%", marginTop: "25px" }}
-          onClick={() => transfer()}
-          disabled={!tx}
+          onClick={transfer}
+          disabled={tx === undefined ? true : false}
         >
           Transfer💸
         </Button>

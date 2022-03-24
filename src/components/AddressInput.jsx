@@ -6,7 +6,7 @@ import Blockie from "./Blockie";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
-function AddressInput(props) { 
+function AddressInput(props) {
   const input = useRef(null);
   const { web3 } = useMoralis();
   const [address, setAddress] = useState("");

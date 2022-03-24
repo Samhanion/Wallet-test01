@@ -3,7 +3,7 @@ import { useMoralis, useNativeBalance } from "react-moralis";
 import { Image, Select } from "antd";
 import { useMemo } from "react";
 
-export default function AssetSelector({ setAsset, style }) {
+export default function AssetSelector({ setAsset }) {
   const { assets } = useERC20Balance();
   const { data: nativeBalance, nativeToken } = useNativeBalance();
   const { Moralis } = useMoralis();
@@ -14,7 +14,7 @@ export default function AssetSelector({ setAsset, style }) {
       ...assets,
       {
         balance: nativeBalance.balance,
-        decimals: nativeToken.decimals,
+        decimals: nativeToken ? nativeToken.decimals : 18,
         name: nativeToken.name,
         symbol: nativeToken.symbol,
         token_address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
@@ -28,7 +28,11 @@ export default function AssetSelector({ setAsset, style }) {
   }
 
   return (
-    <Select onChange={handleChange} size="large" style={style}>
+    <Select
+      onChange={(value) => handleChange(value)}
+      size="large"
+      style={{ width: "100%" }}
+    >
       {fullBalance &&
         fullBalance.map((item) => {
           console.log(item);
@@ -66,9 +70,11 @@ export default function AssetSelector({ setAsset, style }) {
                   <p>{item.symbol}</p>
                   <p style={{ alignSelf: "right" }}>
                     (
-                    {parseFloat(
-                      Moralis?.Units?.FromWei(item.balance, item.decimals),
-                    )?.toFixed(6)}
+                    {item.balance && item.decimals
+                      ? parseFloat(
+                          Moralis.Units.FromWei(item.balance, item.decimals),
+                        ).toFixed(6)
+                      : "fetching balances.."}
                     )
                   </p>
                 </div>
