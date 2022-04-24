@@ -1,9 +1,9 @@
-import {
-  // Card, Timeline,
-  Typography,
-} from "antd";
-import React, { useState } from "react"; //  { useMemo }
-import { useMoralis } from "react-moralis";
+// import {
+//   // Card, Timeline,
+//   Typography,
+// } from "antd";
+import React, { useRef, useState } from "react"; //  { useMemo }
+// import { useMoralis } from "react-moralis";
 import axios from "axios";
 // import Auth from "./Auth";
 import { authentication } from "./firebase-config";
@@ -12,89 +12,70 @@ import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 import BNB from "./BNB.gif";
 import twitter from "./twitter.png";
 // import { getEllipsisTxt } from "../../helpers/formatters";
-import { getEllipsisTxt } from "helpers/formatters";
+// import { getEllipsisTxt } from "helpers/formatters";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CountDown from "./Wallet/components/CountDown";
 
-// import TwitterButton from "react-twitter-button";
+// const { Text } = Typography;
 
-const { Text } = Typography;
-
-const styles = {
-  title: {
-    fontSize: "17px",
-    fontWeight: "500",
-  },
-  text: {
-    fontSize: "16px",
-  },
-  card: {
-    boxShadow: "0 0.5rem 1.2rem rgb(189 197 209 / 20%)",
-    border: "1px solid #e7eaf3",
-    borderRadius: "0.5rem",
-  },
-  timeline: {
-    marginBottom: "-45px",
-  },
-};
+// const styles = {
+//   title: {
+//     fontSize: "17px",
+//     fontWeight: "500",
+//   },
+//   text: {
+//     fontSize: "16px",
+//   },
+//   card: {
+//     boxShadow: "0 0.5rem 1.2rem rgb(189 197 209 / 20%)",
+//     border: "1px solid #e7eaf3",
+//     borderRadius: "0.5rem",
+//   },
+//   timeline: {
+//     marginBottom: "-45px",
+//   },
+// };
 
 // { isServerInfo }
 export default function QuickStart() {
   const [stats, setStats] = useState("none");
   const [name, setName] = useState("");
   const [followers, setFollowers] = useState(0);
-  const [likes, setLikes] = useState(0);
-  const [quotes, setQuotes] = useState(0);
-  const [replies, setReplies] = useState(0);
-  const [claim, setClaim] = useState(0);
 
-  const [transaction, setTransaction] = useState();
+  const [claim, setClaim] = useState(0);
+  const [loginResult, setLoginResult] = useState();
+  const [post, setPost] = useState();
+  const [accessToken, setAccessToken] = useState();
+  const [accessSecret, setAccessSecret] = useState();
+  const [tweetId, setTweetId] = useState();
+
+  const input = useRef();
+
+  // const [transaction, setTransaction] = useState();
 
   const [loading, setLoading] = useState(false);
 
-  const { Moralis } = useMoralis();
-  const {
-    account,
-    //  chainId, logout
-  } = Moralis;
+  const [countDown, setCountDown] = useState(false);
+
+  // const { Moralis } = useMoralis();
+  // const {
+  // account,
+  //  chainId, logout
+  // } = Moralis;
 
   // const isInchDex = useMemo(
   //   () => (Moralis.Plugins?.oneInch ? true : false),
   //   [Moralis.Plugins?.oneInch],
   // );
 
-  async function claimReward() {
-    // calling Twitter API to get user's id
-    // var popup = setTimeout(() => {
-    //   window.open(
-    //     "https://wallet-backend-api.herokuapp.com/auth",
-    //     "_blank",
-    //     "width=500,height=500",
-    //   );
-    // }, 3000);
-    // popup.onload = function () {
-    //   console.log("popup loaded");
-    // };
-
-    // let recoveryPhrase =
-    //   "toilet skate together scheme shaft answer elder fence wasp reflect dawn paper";
-    // let network = "eth/rinkeby";
-    let Recipient = account;
-    let amount = claim;
-    // let SelectedTokenAddress = "0x814F11f6bD1A717b21849da13553D457056DdC9C";
-    let response = await axios({
-      method: "get",
-      url: `https://wallet-backend-api.herokuapp.com/sendAirdrop/?recipient=${Recipient}&amount=${amount}`,
-    });
-    console.log(response.data);
-    setTransaction(response.data.hash);
-    toast.success("Transaction Successful");
-  }
   const signInWithTwitter = async () => {
     const provider = new TwitterAuthProvider();
     const result = await signInWithPopup(authentication, provider);
     console.log(result);
+    console.log(result.user.photoURL);
     setName(result.user.displayName);
+    setLoginResult(result);
     setLoading(true);
     let response = await axios({
       method: "get",
@@ -103,71 +84,109 @@ export default function QuickStart() {
     });
     console.log(response.data);
     let followersCount = +response.data.followers;
-    let likesCount = +response.data.likeCount;
-    let quotesCount = +response.data.qouteCount;
-    let repliesCount = +response.data.replyCount;
+    // let likesCount = +response.data.likeCount;
+    // let quotesCount = +response.data.qouteCount;
+    // let repliesCount = +response.data.replyCount;
 
-    console.log(followersCount);
-    console.log(likesCount);
-    console.log(quotesCount);
-    console.log(repliesCount);
+    // console.log(followersCount);
+    // console.log(likesCount);
+    // console.log(quotesCount);
+    // console.log(repliesCount);
 
     setFollowers(response.data.followers);
-    setLikes(response.data.likeCount);
-    setQuotes(response.data.qouteCount);
-    setReplies(response.data.replyCount);
 
     setLoading(false);
 
     setStats("flex");
+    input.current.focus();
 
     // caluclating the potential rewards
-    let likeToFollowersRatio;
-    let repliesToFollowersRatio;
-    let quotesToFollowersRatio;
-    if (followersCount > 0) {
-      likeToFollowersRatio = Math.min((likesCount / followersCount) * 777, 40);
-      console.log(likeToFollowersRatio);
+    // let likeToFollowersRatio;
+    // let repliesToFollowersRatio;
+    // let quotesToFollowersRatio;
+    // if (followersCount > 0) {
+    //   likeToFollowersRatio = Math.min((likesCount / followersCount) * 777, 40);
+    //   console.log(likeToFollowersRatio);
 
-      repliesToFollowersRatio = Math.min(
-        (repliesCount / followersCount) * 222,
-        30,
-      );
-      console.log(repliesToFollowersRatio);
-      quotesToFollowersRatio = Math.min(
-        (quotesCount / followersCount) * 1111,
-        30,
-      );
-      console.log(quotesToFollowersRatio);
-    } else {
-      likeToFollowersRatio = 0;
-      repliesToFollowersRatio = 0;
-      quotesToFollowersRatio = 0;
-    }
+    //   repliesToFollowersRatio = Math.min(
+    //     (repliesCount / followersCount) * 222,
+    //     30,
+    //   );
+    //   console.log(repliesToFollowersRatio);
+    //   quotesToFollowersRatio = Math.min(
+    //     (quotesCount / followersCount) * 1111,
+    //     30,
+    //   );
+    //   console.log(quotesToFollowersRatio);
+    // } else {
+    //   likeToFollowersRatio = 0;
+    //   repliesToFollowersRatio = 0;
+    //   quotesToFollowersRatio = 0;
+    // }
 
-    console.log(likeToFollowersRatio);
-    console.log(repliesToFollowersRatio);
-    console.log(quotesToFollowersRatio);
+    // console.log(likeToFollowersRatio);
+    // console.log(repliesToFollowersRatio);
+    // console.log(quotesToFollowersRatio);
 
-    let potentialAchieved = Math.max(
-      Math.min(
-        likeToFollowersRatio + repliesToFollowersRatio + quotesToFollowersRatio,
-        100,
-      ),
-      1,
-    );
-    console.log(potentialAchieved);
-    let walterCurrentClaim = Math.max(
-      Math.min(potentialAchieved * followersCount, followersCount * 100),
-      followersCount,
-    );
+    // let potentialAchieved = Math.max(
+    //   Math.min(
+    //     likeToFollowersRatio + repliesToFollowersRatio + quotesToFollowersRatio,
+    //     100,
+    //   ),
+    //   1,
+    // );
+    // console.log(potentialAchieved);
+    // let walterCurrentClaim = Math.max(
+    //   Math.min(potentialAchieved * followersCount, followersCount * 100),
+    //   followersCount,
+    // );
 
-    console.log(walterCurrentClaim);
-    setClaim(walterCurrentClaim);
+    // console.log(walterCurrentClaim);
+    // setClaim(walterCurrentClaim);
+
+    setClaim(followersCount * 19677);
   };
-  const notify = () => toast.success("Copied!");
+
+  const tweet = async () => {
+    let result = loginResult;
+    let tweet = post;
+    // "testing from the frontend and automating access and secret tokens...";
+    // let accessToken = "1502747448120430601-F56GryQb02UVewXDunYBtjSRIBev5N";
+    let accessToken = result._tokenResponse.oauthAccessToken;
+    setAccessToken(accessToken);
+    // let accessSecret = "c7c2lfERKBvriXpj4Ql5AMZP7qlEXUCU8dufyU0p9WqpX";
+    let accessSecret = result._tokenResponse.oauthTokenSecret;
+    setAccessSecret(accessSecret);
+    if (tweet != null) {
+      setCountDown(true);
+      toast.success("Tweet Successful");
+
+      // encodeURIComponent() is to convert the tweet to a valid URL
+      // and avoid errors that happen because of special characters like '#'
+      tweet = encodeURIComponent(tweet);
+      // https://wallet-backend-api.herokuapp.com/twitter/?accessToken=1502747448120430601-F56GryQb02UVewXDunYBtjSRIBev5N&accessSecret=c7c2lfERKBvriXpj4Ql5AMZP7qlEXUCU8dufyU0p9WqpX&tweet=Testing%20Tweet&profileImg=https://pbs.twimg.com/profile_images/1502749222306779145/4aw_spF7_normal.jpg&username=user12
+      let tweetedPost = await axios({
+        method: "get",
+        url: `https://wallet-backend-api.herokuapp.com/twitter/?accessToken=${accessToken}&accessSecret=${accessSecret}&tweet=${tweet}&profileImg=${result.user.photoURL}&username=${name}&potential=${claim}`,
+      });
+      console.log(tweetedPost.data);
+      setTweetId(tweetedPost.data.id_str);
+    }
+  };
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <div>
         <button
           style={{
@@ -203,40 +222,31 @@ export default function QuickStart() {
         }}
       >
         {stats === "flex" ? (
-          <>
-            <div style={{ marginRight: "60px" }}>
-              <Text style={styles.text}>Name</Text>
-              <br />
-              <Text style={styles.text}>Followers</Text>
-              <br />
-              <Text style={styles.text}>Likes</Text>
-              <br />
-              <Text style={styles.text}>Quotes</Text>
-              <br />
-              <Text style={styles.text}>Replies</Text>
-              <br />
-              <br />
-              <Text style={styles.title}>Claim</Text>
-            </div>
-            <div>
-              <Text style={styles.text}>{name}</Text>
-              <br />
-              <Text style={styles.text}>{followers}</Text>
-              <br />
-              <Text style={styles.text}>{likes}</Text>
-              <br />
-              <Text style={styles.text}>{quotes}</Text>
-              <br />
-              <Text style={styles.text}>{replies}</Text>
-              <br />
-              <br />
-              <Text style={styles.title}>{claim}</Text>
-            </div>
-          </>
+          <></>
         ) : (
           <>{loading === true ? <img src={BNB} alt="loading..." /> : null}</>
         )}
       </div>
+      {stats == "flex" ? <></> : null}
+      {stats == "flex" ? (
+        <input
+          ref={input}
+          autoFocus
+          placeholder="#Walter_Airdrop"
+          style={{
+            marginTop: "50px",
+            // backgroundColor: "#55acee",
+            display: "flex",
+            fontSize: "large",
+            border: "none",
+            padding: "10px",
+            borderRadius: "5px",
+            // color: "white",
+            // cursor: "pointer",
+          }}
+          onChange={(e) => setPost(e.target.value)}
+        ></input>
+      ) : null}
       {stats == "flex" ? (
         <button
           style={{
@@ -250,12 +260,20 @@ export default function QuickStart() {
             color: "white",
             cursor: "pointer",
           }}
-          onClick={claimReward}
+          onClick={tweet}
         >
-          Claim
+          Tweet
         </button>
       ) : null}
-      {transaction ? (
+      {countDown == true ? (
+        <CountDown
+          accessToken={accessToken}
+          accessSecret={accessSecret}
+          tweetId={tweetId}
+          followers={followers}
+        />
+      ) : null}
+      {/* {transaction ? (
         <>
           <p
             onClick={() => {
@@ -284,7 +302,7 @@ export default function QuickStart() {
             theme="colored"
           />
         </>
-      ) : null}
+      ) : null} */}
     </div>
 
     // <Auth />

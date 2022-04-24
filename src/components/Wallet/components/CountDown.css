@@ -1,0 +1,16 @@
+.countDown {
+  height: 10vh;
+  width: 60vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin-top: 5vh;
+}
+
+.countDown span {
+  margin-left: 5px;
+  margin-right: 5px;
+}
