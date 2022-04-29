@@ -25,6 +25,10 @@ import Contract from "components/Contract/Contract";
 import Ramper from "components/Ramper";
 import MenuItems from "./components/MenuItems";
 import Walter from "./Walter.png";
+import Welcome from "components/Welcome";
+import appStore from "./appStore.png";
+import googlePlay from "./googlePlay.png";
+import Walter_White from "./Walter_White.png";
 const { Header } = Layout;
 
 const styles = {
@@ -71,24 +75,66 @@ const App = ({ isServerInfo }) => {
   return (
     <Layout style={{ height: "100vh", overflow: "auto" }}>
       <Router>
-        <Header style={styles.header}>
-          <Logo />
-          <MenuItems />
-          <div style={styles.headerRight}>
-            <Chains />
-            <TokenPrice
-              address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
-              chain="eth"
-              image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
-              size="40px"
-            />
-            <NativeBalance />
-            <Account />
-          </div>
-        </Header>
+        <Switch>
+          <Route path="/" exact>
+            <Header
+              style={{
+                position: "fixed",
+                zIndex: 1,
+                width: "100%",
+                background: "#11ADF5",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                fontFamily: "Roboto, sans-serif",
+                borderBottom: "2px solid rgba(0, 0, 0, 0.06)",
+                padding: "0 10px",
+                boxShadow: "0 1px 10px rgb(151 164 175 / 10%)",
+              }}
+            >
+              <img
+                style={{ height: "100px", width: "150px" }}
+                src={Walter_White}
+                alt=""
+              />
+              <div style={styles.headerRight}>
+                <img
+                  style={{ width: "200px", height: "67px" }}
+                  src={appStore}
+                  alt=""
+                />
+                <img
+                  style={{ width: "200px", height: "67px" }}
+                  src={googlePlay}
+                  alt=""
+                />
+              </div>{" "}
+            </Header>
+          </Route>
+          <Route path="/*">
+            <Header style={styles.header}>
+              <Logo />
+              <MenuItems />
+              <div style={styles.headerRight}>
+                <Chains />
+                <TokenPrice
+                  address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+                  chain="eth"
+                  image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
+                  size="40px"
+                />
+                <NativeBalance />
+                <Account />
+              </div>
+            </Header>
+          </Route>
+        </Switch>
 
         <div style={styles.content}>
           <Switch>
+            <Route path="/" exact>
+              <Welcome />
+            </Route>
             <Route exact path="/quickstart">
               <QuickStart isServerInfo={isServerInfo} />
             </Route>
