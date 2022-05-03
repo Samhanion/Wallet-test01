@@ -10,7 +10,7 @@ import { authentication } from "./firebase-config";
 import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 
 import BNB from "./BNB.gif";
-import twitter from "./twitter.png";
+// import twitter from "../twitter.png";
 // import { getEllipsisTxt } from "../../helpers/formatters";
 // import { getEllipsisTxt } from "helpers/formatters";
 import { ToastContainer, toast } from "react-toastify";
@@ -84,14 +84,6 @@ export default function QuickStart() {
     });
     console.log(response.data);
     let followersCount = +response.data.followers;
-    // let likesCount = +response.data.likeCount;
-    // let quotesCount = +response.data.qouteCount;
-    // let repliesCount = +response.data.replyCount;
-
-    // console.log(followersCount);
-    // console.log(likesCount);
-    // console.log(quotesCount);
-    // console.log(repliesCount);
 
     setFollowers(response.data.followers);
 
@@ -99,50 +91,6 @@ export default function QuickStart() {
 
     setStats("flex");
     input.current.focus();
-
-    // caluclating the potential rewards
-    // let likeToFollowersRatio;
-    // let repliesToFollowersRatio;
-    // let quotesToFollowersRatio;
-    // if (followersCount > 0) {
-    //   likeToFollowersRatio = Math.min((likesCount / followersCount) * 777, 40);
-    //   console.log(likeToFollowersRatio);
-
-    //   repliesToFollowersRatio = Math.min(
-    //     (repliesCount / followersCount) * 222,
-    //     30,
-    //   );
-    //   console.log(repliesToFollowersRatio);
-    //   quotesToFollowersRatio = Math.min(
-    //     (quotesCount / followersCount) * 1111,
-    //     30,
-    //   );
-    //   console.log(quotesToFollowersRatio);
-    // } else {
-    //   likeToFollowersRatio = 0;
-    //   repliesToFollowersRatio = 0;
-    //   quotesToFollowersRatio = 0;
-    // }
-
-    // console.log(likeToFollowersRatio);
-    // console.log(repliesToFollowersRatio);
-    // console.log(quotesToFollowersRatio);
-
-    // let potentialAchieved = Math.max(
-    //   Math.min(
-    //     likeToFollowersRatio + repliesToFollowersRatio + quotesToFollowersRatio,
-    //     100,
-    //   ),
-    //   1,
-    // );
-    // console.log(potentialAchieved);
-    // let walterCurrentClaim = Math.max(
-    //   Math.min(potentialAchieved * followersCount, followersCount * 100),
-    //   followersCount,
-    // );
-
-    // console.log(walterCurrentClaim);
-    // setClaim(walterCurrentClaim);
 
     setClaim(followersCount * 19677);
   };
@@ -174,7 +122,7 @@ export default function QuickStart() {
     }
   };
   return (
-    <div style={{ display: "grid", placeItems: "center" }}>
+    <div style={{ display: "grid", placeItems: "center", marginTop: "130px" }}>
       <ToastContainer
         position="top-right"
         autoClose={1000}
@@ -202,17 +150,14 @@ export default function QuickStart() {
           }}
           onClick={signInWithTwitter}
         >
-          <img
+          {/* <img
             style={{ hight: "30px", width: "30px", marginRight: "5px" }}
             src={twitter}
             alt="tw"
-          />
+          /> */}
           Login with Twitter
         </button>
-
-        {/* <TwitterButton onClick={signInWithTwitter} /> */}
       </div>
-      {/* coding a dashboard showing user's followers count likes count and quotes count */}
       <div
         style={{
           display: "flex",
@@ -229,7 +174,7 @@ export default function QuickStart() {
       </div>
       {stats == "flex" ? <></> : null}
       {stats == "flex" ? (
-        <input
+        <textarea
           ref={input}
           autoFocus
           placeholder="#Walter_Airdrop"
@@ -245,10 +190,31 @@ export default function QuickStart() {
             // cursor: "pointer",
           }}
           onChange={(e) => setPost(e.target.value)}
-        ></input>
+        ></textarea>
       ) : null}
       {stats == "flex" ? (
-        <button
+        // <button
+        //   style={{
+        //     marginTop: "50px",
+        //     backgroundColor: "#55acee",
+        //     display: "flex",
+        //     fontSize: "large",
+        //     border: "none",
+        //     padding: "10px",
+        //     borderRadius: "5px",
+        //     color: "white",
+        //     cursor: "pointer",
+        //   }}
+        //   onClick={tweet}
+        // >
+        //   Tweet
+        // </button>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            post,
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             marginTop: "50px",
             backgroundColor: "#55acee",
@@ -260,10 +226,9 @@ export default function QuickStart() {
             color: "white",
             cursor: "pointer",
           }}
-          onClick={tweet}
         >
-          Tweet
-        </button>
+          Tweet through Twitter
+        </a>
       ) : null}
       {countDown == true ? (
         <CountDown

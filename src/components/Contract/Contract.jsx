@@ -48,8 +48,9 @@ export default function Contract() {
         margin: "auto",
         display: "flex",
         gap: "20px",
-        marginTop: "25",
+        // marginTop: "25",
         width: "70vw",
+        marginTop: "155px",
       }}
     >
       <Card

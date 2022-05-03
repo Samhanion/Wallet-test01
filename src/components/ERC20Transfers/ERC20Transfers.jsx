@@ -54,7 +54,7 @@ function ERC20Transfers() {
 
   let key = 0;
   return (
-    <div style={{ width: "65vw", padding: "15px" }}>
+    <div style={{ width: "65vw", padding: "15px", marginTop: "130px" }}>
       <h1>💸ERC20 Transfers</h1>
       <Skeleton loading={!ERC20Transfers}>
         <Table

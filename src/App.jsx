@@ -26,9 +26,12 @@ import Ramper from "components/Ramper";
 import MenuItems from "./components/MenuItems";
 import Walter from "./Walter.png";
 import Welcome from "components/Welcome";
-import appStore from "./appStore.png";
-import googlePlay from "./googlePlay.png";
-import Walter_White from "./Walter_White.png";
+
+import twitter from "./twitter.png";
+import facebook from "./facebook.png";
+import reddit from "./reddit.png";
+import discord from "./discord.png";
+import instagram from "./instagram.png";
 const { Header } = Layout;
 
 const styles = {
@@ -37,8 +40,8 @@ const styles = {
     justifyContent: "center",
     fontFamily: "Roboto, sans-serif",
     color: "#041836",
-    marginTop: "130px",
-    padding: "10px",
+    // marginTop: "130px",
+    // padding: "10px",
   },
   header: {
     position: "fixed",
@@ -59,6 +62,7 @@ const styles = {
     alignItems: "center",
     fontSize: "15px",
     fontWeight: "600",
+    marginRight: "60px",
   },
 };
 const App = ({ isServerInfo }) => {
@@ -82,7 +86,7 @@ const App = ({ isServerInfo }) => {
                 position: "fixed",
                 zIndex: 1,
                 width: "100%",
-                background: "#11ADF5",
+                background: "#dbf2fd",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -92,23 +96,35 @@ const App = ({ isServerInfo }) => {
                 boxShadow: "0 1px 10px rgb(151 164 175 / 10%)",
               }}
             >
-              <img
-                style={{ height: "100px", width: "150px" }}
-                src={Walter_White}
-                alt=""
-              />
+              <Logo />
               <div style={styles.headerRight}>
                 <img
-                  style={{ width: "200px", height: "67px" }}
-                  src={appStore}
+                  style={{ width: "28px", height: "28px" }}
+                  src={twitter}
                   alt=""
                 />
                 <img
-                  style={{ width: "200px", height: "67px" }}
-                  src={googlePlay}
+                  style={{ width: "28px", height: "28px" }}
+                  src={facebook}
                   alt=""
                 />
-              </div>{" "}
+                <img
+                  style={{ width: "28px", height: "28px" }}
+                  src={reddit}
+                  alt=""
+                />
+
+                <img
+                  style={{ width: "28px", height: "28px" }}
+                  src={instagram}
+                  alt=""
+                />
+                <img
+                  style={{ width: "28px", height: "28px" }}
+                  src={discord}
+                  alt=""
+                />
+              </div>
             </Header>
           </Route>
           <Route path="/*">
@@ -142,7 +158,10 @@ const App = ({ isServerInfo }) => {
               <Wallet />
             </Route>
             <Route path="/1inch">
-              <Tabs defaultActiveKey="1" style={{ alignItems: "center" }}>
+              <Tabs
+                defaultActiveKey="1"
+                style={{ alignItems: "center", marginTop: "130px" }}
+              >
                 <Tabs.TabPane tab={<span>Ethereum</span>} key="1">
                   <DEX chain="eth" />
                 </Tabs.TabPane>
@@ -187,7 +206,7 @@ const App = ({ isServerInfo }) => {
 
 export const Logo = () => (
   // <div style={{ display: "flex" }}>
-  <img style={{ height: "100px", width: "150px" }} src={Walter} alt="" />
+  <img style={{ height: "100px", width: "100px" }} src={Walter} alt="" />
   /* <svg
       width="60"
       height="38"

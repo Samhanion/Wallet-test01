@@ -28,6 +28,7 @@ function Ramper() {
         border: "1px solid #e7eaf3",
         borderRadius: "1rem",
         backgroundColor: "white",
+        marginTop: "130px",
       }}
     />
   );

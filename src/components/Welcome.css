@@ -1,129 +1,106 @@
-/* @import url("http://fonts.cdnfonts.com/css/made-tommy-soft-outline?styles=59309,59310,59307,59308,59305,59306,59304"); */
-.Walter {
+@import url("http://fonts.cdnfonts.com/css/made-tommy-soft-outline");
+
+.body {
+  height: 100vh;
+  width: 100vw;
+  background-color: #fed804;
+}
+.welcome {
+  height: 100vh;
+  width: 100vw;
+}
+.character {
+  position: relative;
+  top: -648px;
+  left: 942px;
+  max-height: 529px;
+  max-width: 518px;
+  object-fit: scale-down;
+}
+.intro {
   /* Layout Properties */
-  top: 220px;
-  left: 357px;
-  width: 1206px;
-  height: 122px;
+  position: relative;
+  top: -1120px;
+  left: 109px;
+  max-width: 1202px;
+  height: 146px;
   /* UI Properties */
-  text-align: center;
-  font: "MADE Tommy Soft";
-  font-size: 100px;
-  font-weight: bolder;
+  text-align: left;
+  /* font: normal normal medium 120px/149px MADE Tommy Soft; */
+  font-family: "MADE Tommy Soft";
+  font-size: 90px;
   letter-spacing: 0px;
-  color: #11adf5;
+  color: #ffffff;
   opacity: 1;
 }
 .text {
-  top: 352px;
-  left: 381px;
-
-  text-align: center;
-  font: "MADE Tommy Soft";
-  font-size: 30px;
-  font-weight: bolder;
+  position: relative;
+  top: -1135px;
+  left: 109px;
+  max-width: 650px;
+  height: 114px;
+  text-align: left;
+  /* font: normal normal normal 45px/60px MADE Tommy Soft; */
+  font-family: "MADE Tommy Soft";
+  font-size: 34px;
+  font-weight: 400;
   letter-spacing: 0px;
-  color: #374a4c;
-  opacity: 1;
-  margin-top: 20px;
-}
-.Tokenomics {
-  /* Layout Properties */
-  top: 220px;
-  left: 357px;
-  /* width: 1206px; */
-  /* UI Properties */
-  text-align: center;
-  font: "MADE Tommy Soft";
-  font-size: 50px;
-  font-weight: bolder;
-  letter-spacing: 0px;
-  color: #11adf5;
-  opacity: 1;
-  margin-top: 80px;
-}
-.Tokenomics_text {
-  top: 352px;
-  left: 381px;
-  /* width: 1158px; */
-  /* height: 37px; */
-  text-align: center;
-  font: "MADE Tommy Soft";
-  font-size: 30px;
-  font-weight: bolder;
-  letter-spacing: 0px;
-  color: #374a4c;
-  opacity: 1;
-  /* margin-top: 10px; */
-}
-/* for the wave animation */
-body {
-  background: radial-gradient(
-    ellipse at center,
-    #fffeea 0%,
-    #fffeea 35%,
-    #b7e8eb 100%
-  );
-  overflow: hidden;
-}
-
-.ocean {
-  /* height: 5%; */
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background: #015871;
-}
-
-.wave {
-  /* background: url(https://cdn.kcak11.com/codepen_assets/wave_animation/wave.svg) */
-  background: url("./wave.svg") repeat-x;
-  position: absolute;
-  /* top: -198px; */
-  top: -150px;
-  width: 6400px;
-  /* height: 198px; */
-  height: 150px;
-  animation: wave 30s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
-  transform: translate3d(0, 0, 0);
-}
-
-.wave:nth-of-type(2) {
-  /* top: -175px; */
-  top: -110px;
-  animation: wave 30s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
-    swell 7s ease -1.25s infinite;
+  color: #ffffff;
   opacity: 1;
 }
-
-@keyframes wave {
-  0% {
-    margin-left: 0;
-  }
-  100% {
-    margin-left: -1600px;
-  }
-}
-@keyframes swell {
-  0%,
-  100% {
-    transform: translate3d(0, -25px, 0);
-  }
-  50% {
-    transform: translate3d(0, 5px, 0);
-  }
-}
-.endWave {
-  display: none;
-}
-/* for the wave animation  */
-.center {
-  /* position: absolute; */
-
-  /* width: 100%;
-  height: 100%; */
+.download {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
+  max-width: 500px;
+  position: relative;
+  top: -1120px;
+  left: 100px;
+}
+.appStore {
+  /* position: relative; */
+  /* top: -1200px;
+  left: 109px; */
+  height: 70px;
+  /* UI Properties */
+  background: transparent;
+  /* box-shadow: 0px 0px 6px #00000029; */
+  border-radius: 50px;
+  opacity: 1;
+  cursor: pointer;
+}
+.googlePlay {
+  /* position: relative; */
+  /* top: -1210px;
+  left: 349px; */
+  height: 70px;
+  background: transparent;
+  /* box-shadow: 0px 0px 6px #00000029; */
+  border-radius: 50px;
+  opacity: 1;
+  cursor: pointer;
+}
+.tokenomics {
+  position: relative;
+  top: -980px;
+  left: 111px;
+  max-width: 700px;
+  /* height: 114px; */
+  text-align: left;
+  font-family: "MADE Tommy Soft";
+  /* font-size: 30px; */
+  font-weight: 500;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+}
+/* center a button */
+.center {
+  position: relative;
+  top: -1558px;
+  left: 945px;
+  display: flex;
+  max-width: 300px;
+  /* justify-content: center;
+  align-items: center; */
 }
